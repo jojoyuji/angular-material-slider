@@ -1,4 +1,8 @@
-$height: 7px;
+$height: 2px;
+$handle: 32px;
+$color: #3f51b5;
+$background: #c8c8c8;
+
 slider, [slider] {
   display: inline-block;
   position: relative;
@@ -14,9 +18,18 @@ slider, [slider] {
     &.bar {
       width: 100%;
       height: 100%;
-      border-radius: $height;
-      background: #444;
       overflow: hidden;
+
+      .bar-content {
+        background-color: $background;
+        width: calc(100% - #{$handle});
+        margin-left: $handle / 2;
+        height: 100%;
+
+        &.active {
+          background-color: $color;
+        }
+      }
 
       .selection {
         width: 0%;
@@ -27,38 +40,38 @@ slider, [slider] {
 
     &.handle {
       cursor: pointer;
-      width: 20px;
-      height: 20px;
-      top: -8px;
-      background-color: #fff;
-      border: 1px solid #000;
+      width: $handle;
+      height: $handle;
+      top: -15px;
       z-index: 2;
-      border-radius: 100%;
 
-      &:after {
-        content: '';
-        background-color: #777;
-        width: 8px;
-        height: 8px;
-        position: absolute;
-        top: 6px;
-        left: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .inner {
+        height: 12px;
+        width: 12px;
         border-radius: 100%;
-
-        &:hover {
-          background-color: #000;
-        }
+        background-color: $color;
+        position: initial;
+        transition:
+          height 0.18s ease,
+          width 0.18s ease,
       }
 
-      &.active:after {
-        background-color: #f00;
+      &.active {
+        .inner {
+          height: 32px;
+          width: 32px;
+        }
       }
     }
 
     &.bubble {
       display: none;
       cursor: default;
-      top: -22px;
+      top: -$handle;
       padding: 1px 3px 1px 3px;
       font-size: 0.7em;
       font-family: sans-serif;
@@ -69,6 +82,10 @@ slider, [slider] {
 
       &.limit {
         color: #777;
+      }
+
+      &.value {
+        z-index: 3;
       }
     }
   }
