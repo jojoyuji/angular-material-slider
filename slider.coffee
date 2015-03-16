@@ -9,7 +9,7 @@ pixelize      = (position) -> "#{position}px"
 hide          = (element) -> element.css opacity: 0
 show          = (element) -> element.css opacity: 1
 offset        = (element, position) -> element.css left: position
-hsize         = (element, position) -> element.css width: position
+hSize         = (element, position) -> element.css width: position
 halfWidth     = (element) -> element[0].offsetWidth / 2
 offsetLeft    = (element) -> element[0].offsetLeft
 width         = (element) -> element[0].offsetWidth
@@ -58,10 +58,12 @@ sliderDirective = ($timeout) ->
     ngModelLow:   '=?'
     ngModelHigh:  '=?'
   template: '''
-    <div class="bar">
-      <div class="bar-content"></div>
-      <div class="bar-content active"></div>
-      <div class="selection"></div>
+    <div class="bar-container">
+      <div class="bar">
+        <div class="bar-content"></div>
+        <div class="bar-content active"></div>
+        <div class="selection"></div>
+      </div>
     </div>
     <div class="handle low"><div class="inner"></div></div><div class="handle high"></div>
     <div class="bubble limit low">{{ values.length ? values[floor || 0] : floor }}</div>
@@ -82,7 +84,8 @@ sliderDirective = ($timeout) ->
 
     post: (scope, element, attributes) ->
       # Get references to template elements
-      [bar, minPtr, maxPtr, flrBub, ceilBub, lowBub, highBub] = (angularize(e) for e in element.children())
+      [barContainer, minPtr, maxPtr, flrBub, ceilBub, lowBub, highBub] = (angularize(e) for e in element.children())
+      bar = angularize barContainer.children()[0]
       selection = angularize bar.children()[2]
       activeBar = angularize bar.children()[1]
 
@@ -138,9 +141,11 @@ sliderDirective = ($timeout) ->
 
         setPointers = ->
           offset ceilBub, pixelize(barWidth - width(ceilBub))
+          a = scope.local[low]
+          b = percentValue 1000
           newLowValue = percentValue scope.local[low]
           offset minPtr, pixelsToOffset newLowValue
-          hsize activeBar, pixelsToOffset newLowValue
+          hSize activeBar, pixelsToOffset newLowValue
           offset lowBub, pixelize(offsetLeft(minPtr) - (halfWidth lowBub) + handleHalfWidth)
           offset selection, pixelize(offsetLeft(minPtr) + handleHalfWidth)
 
@@ -220,6 +225,23 @@ sliderDirective = ($timeout) ->
           for method in ['touch', 'mouse']
             bind minPtr, lowBub, low, events[method]
             bind maxPtr, highBub, high, events[method]
+
+          barContainer.bind 'mousedown', (event) ->
+            eventX = event.clientX or event.touches?[0].clientX or event.originalEvent?.changedTouches?[0].clientX or 0
+            newOffset = eventX - element[0].getBoundingClientRect().left - handleHalfWidth
+            newOffset = Math.max(Math.min(newOffset, maxOffset), minOffset)
+            newPercent = percentOffset newOffset
+            newValue = minValue + (valueRange * newPercent / 100.0)
+            newValue = roundStep(newValue, parseInt(scope.precision), parseFloat(scope.step), parseFloat(scope.floor))
+            scope[low] = newValue
+            minPtr.addClass 'transiting'
+            activeBar.addClass 'transiting'
+            scope.$apply()
+            setPointers()
+          barContainer.bind 'transitionend', (event) ->
+            minPtr.removeClass 'transiting'
+            activeBar.removeClass 'transiting'
+
           bound = true
 
         setBindings() unless bound
