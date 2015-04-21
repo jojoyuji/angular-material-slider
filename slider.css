@@ -1,4 +1,3 @@
-/* line 8, slider.scss */
 slider, [slider] {
   display: inline-block;
   position: relative;
@@ -7,12 +6,10 @@ slider, [slider] {
   margin: 25px 5px 25px 5px;
   vertical-align: middle;
 }
-/* line 16, slider.scss */
 slider div, [slider] div {
   white-space: nowrap;
   position: absolute;
 }
-/* line 20, slider.scss */
 slider div.bar-container, [slider] div.bar-container {
   display: flex;
   justify-content: center;
@@ -21,34 +18,28 @@ slider div.bar-container, [slider] div.bar-container {
   height: 100%;
   overflow: hidden;
 }
-/* line 28, slider.scss */
 slider div.bar-container .bar, [slider] div.bar-container .bar {
   width: 100%;
   height: 2px;
   overflow: hidden;
 }
-/* line 33, slider.scss */
 slider div.bar-container .bar .bar-content, [slider] div.bar-container .bar .bar-content {
   background-color: #c8c8c8;
   width: calc(100% - 32px);
   margin-left: 16px;
   height: 100%;
 }
-/* line 39, slider.scss */
 slider div.bar-container .bar .bar-content.active, [slider] div.bar-container .bar .bar-content.active {
   background-color: #3f51b5;
 }
-/* line 42, slider.scss */
 slider div.bar-container .bar .bar-content.active.transiting, [slider] div.bar-container .bar .bar-content.active.transiting {
   transition: width 0.18s ease;
 }
-/* line 48, slider.scss */
 slider div.bar-container .bar .selection, [slider] div.bar-container .bar .selection {
   width: 0%;
   height: 100%;
   background: #13b6ff;
 }
-/* line 57, slider.scss */
 slider div.handle, [slider] div.handle {
   cursor: pointer;
   width: 32px;
@@ -59,11 +50,9 @@ slider div.handle, [slider] div.handle {
   align-items: center;
   justify-content: center;
 }
-/* line 67, slider.scss */
 slider div.handle.transiting, [slider] div.handle.transiting {
   transition: left 0.18s ease;
 }
-/* line 71, slider.scss */
 slider div.handle .inner, [slider] div.handle .inner {
   height: 12px;
   width: 12px;
@@ -72,12 +61,10 @@ slider div.handle .inner, [slider] div.handle .inner {
   position: initial;
   transition: height 0.18s ease, width 0.18s ease;
 }
-/* line 83, slider.scss */
 slider div.handle.active .inner, [slider] div.handle.active .inner {
   height: 32px;
   width: 32px;
 }
-/* line 90, slider.scss */
 slider div.bubble, [slider] div.bubble {
   display: none;
   cursor: default;
@@ -86,15 +73,13 @@ slider div.bubble, [slider] div.bubble {
   font-size: 0.7em;
   font-family: sans-serif;
 }
-/* line 98, slider.scss */
 slider div.bubble.active, [slider] div.bubble.active {
   display: inline-block;
 }
-/* line 102, slider.scss */
 slider div.bubble.limit, [slider] div.bubble.limit {
   color: #777;
 }
-/* line 106, slider.scss */
 slider div.bubble.value, [slider] div.bubble.value {
   z-index: 3;
 }
+
