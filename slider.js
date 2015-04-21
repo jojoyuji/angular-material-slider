@@ -304,6 +304,7 @@
                   bind(minPtr, lowBub, low, events[method]);
                   bind(maxPtr, highBub, high, events[method]);
                 }
+                var self = this;
                 barContainer.bind('mousedown', function(event) {
                   var eventX, newOffset, newPercent, newValue, ref4, ref5, ref6;
                   eventX = event.clientX || ((ref4 = event.touches) != null ? ref4[0].clientX : void 0) || ((ref5 = event.originalEvent) != null ? (ref6 = ref5.changedTouches) != null ? ref6[0].clientX : void 0 : void 0) || 0;
@@ -313,13 +314,24 @@
                   newValue = minValue + (valueRange * newPercent / 100.0);
                   newValue = roundStep(newValue, parseInt(scope.precision), parseFloat(scope.step), parseFloat(scope.floor));
                   scope[low] = newValue;
-                  minPtr.addClass('transiting');
+                  minPtr.addClass('transiting active');
                   activeBar.addClass('transiting');
                   scope.$apply();
-                  return setPointers();
+                  dimensions();
+
+                  //ngDocument.unbind(events.move);
+                  //ngDocument.unbind(events.end);
+                  if (scope.dragstop) {
+                    scope[high] = scope.local[high];
+                    scope[low] = scope.local[low];
+                  }
+                  if (typeof scope.ngChange === 'function') {
+                    scope.ngChange();
+                  }
+                  setPointers();
                 });
                 barContainer.bind('transitionend', function(event) {
-                  minPtr.removeClass('transiting');
+                  minPtr.removeClass('transiting active');
                   return activeBar.removeClass('transiting');
                 });
                 return bound = true;

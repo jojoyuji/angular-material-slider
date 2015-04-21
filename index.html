@@ -5,23 +5,25 @@
     <link rel="stylesheet" href="slider.css" media="all">
   </head>
   <body>
-  <div style="width:500px;" ng-controller="ItemCtrl">
-    <slider floor="100"
-    ceiling="1000"
-    step="1"
-    ng-change="hello(cost)"
-    precision="2" ng-model="cost"></slider>
-  </div>
+    <div style="width:500px;" ng-controller="ItemCtrl">
+      <slider
+      step="1"
+      ng-change="hello(cost)"
+      floor="1"
+      ceiling="10"
+      step="1"
+      precision="2" ng-model="cost"></slider>
+    </div>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular.min.js"></script>
     <script src="slider.js"></script>
     <script>
-    app = angular.module('app', ['ui.slider']);
-    app.controller('ItemCtrl', ['$scope', function($scope) {
-      $scope.cost = 350
-      $scope.hello = function(arg){
-        console.log('hello ', arg )
-      };
-    }]);
+      app = angular.module('app', ['ui.slider']);
+      app.controller('ItemCtrl', ['$scope', function($scope) {
+        $scope.cost = 350
+        $scope.hello = function(arg){
+          console.log('hello ', arg )
+        };
+      }]);
     </script>
   </body>
 </html>
