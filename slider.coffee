@@ -262,3 +262,4 @@ module = (window, angular) ->
     .directive(SLIDER_TAG, qualifiedDirectiveDefinition)
 
 module window, window.angular
+
