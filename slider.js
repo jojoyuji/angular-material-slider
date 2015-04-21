@@ -102,7 +102,8 @@
         dragstop: '@',
         ngModel: '=?',
         ngModelLow: '=?',
-        ngModelHigh: '=?'
+        ngModelHigh: '=?',
+        ngChange: '&'
       },
       template: '<div class="bar-container">\n  <div class="bar">\n    <div class="bar-content"></div>\n    <div class="bar-content active"></div>\n    <div class="selection"></div>\n  </div>\n</div>\n<div class="handle low"><div class="inner"></div></div><div class="handle high"></div>\n<div class="bubble limit low">{{ values.length ? values[floor || 0] : floor }}</div>\n<div class="bubble limit high">{{ values.length ? values[ceiling || values.length - 1] : ceiling }}</div>\n<div class="bubble value low">{{ values.length ? values[local.ngModelLow || local.ngModel || 0] : local.ngModelLow || local.ngModel || 0 }}</div>\n<div class="bubble value high">{{ values.length ? values[local.ngModelHigh] : local.ngModelHigh }}</div>',
       compile: function(element, attributes) {
@@ -234,6 +235,9 @@
                   if (scope.dragstop) {
                     scope[high] = scope.local[high];
                     scope[low] = scope.local[low];
+                  }
+                  if (typeof scope.ngChange === 'function') {
+                    scope.ngChange();
                   }
                   currentRef = ref;
                   return scope.$apply();
